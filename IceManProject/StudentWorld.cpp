@@ -21,6 +21,8 @@ int StudentWorld::init() {
 	ice.push_back(iceField);
         }
     }
+	return GWSTATUS_CONTINUE_GAME;
+}
 
 int StudentWorld::move() {
 	player->doSomething();
