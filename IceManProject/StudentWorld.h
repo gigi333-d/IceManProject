@@ -17,6 +17,12 @@ public:
 	}
 
 	virtual ~StudentWorld() {
+		auto i = ice.begin();
+		while (i != ice.end()) {
+		delete(*i);
+		i = ice.erase(i);
+	}
+	delete(player);
         }
 
 	virtual int init();
