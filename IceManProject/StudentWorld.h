@@ -15,7 +15,10 @@ public:
 		: GameWorld(assetDir)
 	{
 	}
-	
+
+	virtual ~StudentWorld() {
+        }
+
 	virtual int init();
 	//{
 	//	return GWSTATUS_CONTINUE_GAME;
