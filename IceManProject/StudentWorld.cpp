@@ -10,8 +10,8 @@ GameWorld* createStudentWorld(string assetDir)
 int StudentWorld::init() {
     m_player = new Iceman(this);
 
-    for (int i = 0; x < VIEW_WIDTH; ++x) {
-        for (int j = 0; y < VIEW_HEIGHT; ++y) {
+    for (int i = 0; i < VIEW_WIDTH; ++i) {
+        for (int j = 0; j < VIEW_HEIGHT; ++j) {
             if (j > 3) {
 		if (i >= 30 && i <= 33) {
 		continue;
