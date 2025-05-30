@@ -15,25 +15,25 @@ public:
 		: GameWorld(assetDir)
 	{
 	}
+	
+	virtual int init();
+	//{
+	//	return GWSTATUS_CONTINUE_GAME;
+	//}
 
-	virtual int init()
-	{
-		return GWSTATUS_CONTINUE_GAME;
-	}
-
-	virtual int move()
-	{
+	virtual int move();
+	//{
 		// This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
 		// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
-		decLives();
-		return GWSTATUS_PLAYER_DIED;
-	}
+		//decLives();
+		//return GWSTATUS_PLAYER_DIED;
+	//}
 
-	virtual void cleanUp()
-	{
-	}
+	virtual void cleanUp();
 
 private:
+	Iceman* player;
+	std::vector<Ice*> ice;
 };
 
 #endif // STUDENTWORLD_H_
