@@ -3,33 +3,28 @@
 
 #include "GameWorld.h"
 #include <vector>
+#include <string>
 
 class Ice;
 class Iceman;
 
-class StudentWorld : public GameWorld {
+class StudentWorld : public GameWorld
+{
 public:
-    StudentWorld(std::string assetDir);
+    explicit StudentWorld(std::string assetDir);
     virtual ~StudentWorld();
 
-    virtual int init() override;   // build ice grid and iceman
-    virtual int move() override;   // one game tick
-    virtual void cleanUp() override;
+    // framework required overrides
+    int  init() override;
+    int  move() override;
+    void cleanUp() override;
 
-    bool getKey(int& ch)                   { return getKeyFromController(ch); }
-    void digIceAt(int x, int y);           // called by Iceman
+    // helper for Iceman
+    void digIceAt(int x, int y);
 
 private:
+    Iceman*           m_iceman = nullptr;
     std::vector<Ice*> m_ice;
-    Iceman*           m_iceman;
 };
 
-#endif   // STUDENTWORLD_H
-
-
-private:
-	Iceman* player;
-	std::vector<Ice*> ice;
-};
-
-#endif // STUDENTWORLD_H_
+#endif 
