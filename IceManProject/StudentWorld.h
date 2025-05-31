@@ -1,44 +1,31 @@
-#pragma once
-#ifndef STUDENTWORLD_H_
-#define STUDENTWORLD_H_
+#ifndef STUDENTWORLD_H
+#define STUDENTWORLD_H
 
 #include "GameWorld.h"
-#include "GameConstants.h"
-#include <string>
+#include <vector>
 
-// Students:  Add code to this file, StudentWorld.cpp, Actor.h, and Actor.cpp
+class Ice;
+class Iceman;
 
-class StudentWorld : public GameWorld
-{
+class StudentWorld : public GameWorld {
 public:
-	StudentWorld(std::string assetDir)
-		: GameWorld(assetDir)
-	{
-	}
+    StudentWorld(std::string assetDir);
+    virtual ~StudentWorld();
 
-	virtual ~StudentWorld() {
-		auto i = ice.begin();
-		while (i != ice.end()) {
-		delete(*i);
-		i = ice.erase(i);
-	}
-	delete(player);
-        }
+    virtual int init() override;   // build ice grid and iceman
+    virtual int move() override;   // one game tick
+    virtual void cleanUp() override;
 
-	virtual int init();
-	//{
-	//	return GWSTATUS_CONTINUE_GAME;
-	//}
+    bool getKey(int& ch)                   { return getKeyFromController(ch); }
+    void digIceAt(int x, int y);           // called by Iceman
 
-	virtual int move();
-	//{
-		// This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
-		// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
-		//decLives();
-		//return GWSTATUS_PLAYER_DIED;
-	//}
+private:
+    std::vector<Ice*> m_ice;
+    Iceman*           m_iceman;
+};
 
-	virtual void cleanUp();
+#endif   // STUDENTWORLD_H
+
 
 private:
 	Iceman* player;
