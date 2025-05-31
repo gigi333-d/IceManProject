@@ -1,39 +1,57 @@
+#include "Actor.h"
 #include "StudentWorld.h"
-#include <string>
-using namespace std;
+#include "GameConstants.h"
 
-GameWorld* createStudentWorld(string assetDir)
+StudentWorld::StudentWorld(std::string assetDir)
+: GameWorld(assetDir), m_iceman(nullptr) {}
+
+StudentWorld::~StudentWorld() { cleanUp(); }
+
+// init
+int StudentWorld::init()
 {
-	return new StudentWorld(assetDir);
+    // build full ice field except central 4-column shaft (30..33)
+    for (int c = 0; c < 64; ++c)
+        for (int r = 0; r < 60; ++r)
+            if (c < 30 || c > 33)           // skip the shaft
+                m_ice.push_back(new Ice(c, r));
+
+    // place iceman at top of shaft
+    m_iceman = new Iceman(30, 60, this);
+
+    return GWSTATUS_CONTINUE_GAME;
 }
 
-int StudentWorld::init() {
-    m_player = new Iceman(this);
+// move
+int StudentWorld::move()
+{
+    m_iceman->doSomething();      // only actor that does anything in part 1
+    return GWSTATUS_CONTINUE_GAME;
+}
 
-    for (int i = 0; i < VIEW_WIDTH; ++i) {
-        for (int j = 0; j < VIEW_HEIGHT; ++j) {
-            if (j > 3) {
-		if (i >= 30 && i <= 33) {
-		continue;
-		}
-	    }	
-	Ice* iceField = new Ice(i, j);
-	ice.push_back(iceField);
-        }
+//cleanUp
+void StudentWorld::cleanUp()
+{
+    delete m_iceman; m_iceman = nullptr;
+
+    for (auto p : m_ice) delete p;
+    m_ice.clear();
+}
+
+// dig ice at
+void StudentWorld::digIceAt(int x, int y)
+{
+    std::vector<Ice*> keep;
+    keep.reserve(m_ice.size());
+
+    for (auto p : m_ice) {
+        int ix = p->getX(), iy = p->getY();
+        bool overlap = (ix >= x && ix <= x + 3 && iy >= y && iy <= y + 3);
+        if (overlap)
+            delete p;
+        else
+            keep.push_back(p);
     }
-	return GWSTATUS_CONTINUE_GAME;
+    m_ice.swap(keep);
 }
 
-int StudentWorld::move() {
-	player->doSomething();
-	return GWSTATUS_CONTINUE_GAME;
-}
-
-void StudentWorld::cleanUp() {
-	auto i = ice.begin();
-	while (i != ice.end()) {
-		delete(*i);
-		i = ice.erase(i);
-	}
-	delete(player);
-}
