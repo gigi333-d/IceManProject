@@ -4,13 +4,15 @@
 #include "GraphObject.h"      //framework base
 #include "GameConstants.h"    //official image IDs and key codes
 #include <string>
+#include <vector>
+#include <algorithm>
 
 //-----------------------------------------------------------------
 //abstract base for every game object
-class Actor : public GraphObject{
+class Actor : public GraphObject {
 public:
     Actor(int imageID, int startX, int startY,
-          int dir = right, double size = 1.0, unsigned depth = 0);
+        GraphObject::Direction dir = GraphObject::right, double size = 1.0, unsigned depth = 0);
     virtual ~Actor();
 
     virtual void doSomething() = 0;          //one tick of behaviour
@@ -18,7 +20,7 @@ public:
 
 // -----------------------------------------------------------------
 //Ice doesnt do anything each tick
-class Ice : public Actor{
+class Ice : public Actor {
 public:
     Ice(int startX, int startY);
     virtual ~Ice();
@@ -27,7 +29,7 @@ public:
 
 // -----------------------------------------------------------------
 //Iceman can move and dig
-class StudentWorld;   
+class StudentWorld;
 
 class Iceman : public Actor {
 public:
