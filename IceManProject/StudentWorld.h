@@ -1,9 +1,11 @@
-#ifndef STUDENTWORLD_H
-#define STUDENTWORLD_H
+#ifndef STUDENTWORLD_H_
+#define STUDENTWORLD_H_
 
 #include "GameWorld.h"
-#include <vector>
+#include "GameConstants.h"
 #include <string>
+#include <vector>
+#include "Actor.h"
 
 class Ice;
 class Iceman;
@@ -23,7 +25,7 @@ public:
     void digIceAt(int x, int y);
 
 private:
-    Iceman*           m_iceman = nullptr;
+    Iceman* m_iceman = nullptr;
     std::vector<Ice*> m_ice;
 };
 
