@@ -1,11 +1,25 @@
-#include "Actor.h"
 #include "StudentWorld.h"
+#include <string>
+#include "Actor.h"
+#include <vector>
 #include "GameConstants.h"
+#include <algorithm>
+
+GameWorld* createStudentWorld(std::string assetDir)
+{
+    return new StudentWorld(assetDir);
+}
 
 StudentWorld::StudentWorld(std::string assetDir)
-: GameWorld(assetDir), m_iceman(nullptr) {}
+    : GameWorld(assetDir), m_iceman(nullptr) {
+}
 
-StudentWorld::~StudentWorld() { cleanUp(); }
+StudentWorld::~StudentWorld() { 
+    delete m_iceman; m_iceman = nullptr;
+
+    for (auto p : m_ice) delete p;
+    m_ice.clear();
+}
 
 // init
 int StudentWorld::init()
@@ -54,4 +68,3 @@ void StudentWorld::digIceAt(int x, int y)
     }
     m_ice.swap(keep);
 }
-
